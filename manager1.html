@@ -1,0 +1,60 @@
+<!-- Код страницы менеджера1 (ManagerOne.html) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager 1 Dashboard</title>
+    <!-- Подключаем Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Welcome, Manager 1!</h1>
+    <button id="viewAllVehiclesBtn" class="btn btn-primary">Просмотреть все машины</button>
+</div>
+
+<!-- JavaScript для отправки GET-запроса с токеном -->
+<script>
+    // Функция для отправки GET-запроса с использованием JWT-токена
+    function viewAllVehicles() {
+        // Получаем JWT-токен из куки
+        const token = getJwtTokenFromCookie();
+
+        // Проверяем, что токен не пустой
+        if (token) {
+            // Отправляем GET-запрос с заголовком "Authorization" содержащим токен
+            fetch('/manager1/vehicles', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    // Обработка ответа от сервера
+                    if (response.ok) {
+                        // Обработка успешного ответа
+                    } else {
+                        // Обработка ошибки
+                    }
+                })
+                .catch(error => {
+                    // Обработка ошибок при отправке запроса
+                });
+        }
+    }
+
+    // Функция для получения JWT-токена из куки
+    function getJwtTokenFromCookie() {
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('jwt-token='))
+            .split('=')[1];
+        return cookieValue;
+    }
+
+    // Привязываем обработчик клика к кнопке "Просмотреть все машины"
+    document.getElementById('viewAllVehiclesBtn').addEventListener('click', viewAllVehicles);
+</script>
+</body>
+</html>
